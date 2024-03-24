@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enums\RoleEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\UserLoginRequest;
 use App\Http\Requests\Auth\UserRegisterRequest;
@@ -19,6 +20,8 @@ class UserAuthController extends Controller
         $userRequestValidated = $userRegisterRequest->validated();
 
         $userRequestValidated["password"] = bcrypt($userRequestValidated["password"]);
+
+        $userRequestValidated['role'] = RoleEnum::USER->value;
 
         $user = User::create($userRequestValidated);
 
