@@ -28,7 +28,7 @@ class UserAuthController extends Controller
 
         $expires_in = Carbon::now()->diffInSeconds($token_data->token->expires_at);
 
-        return self::authTokenResponse($access_token, $expires_in);
+        return self::authTokenResponse($user, $access_token, $expires_in);
     }
 
     public function login(UserLoginRequest $userLoginRequest): JsonResponse
@@ -41,7 +41,7 @@ class UserAuthController extends Controller
 
         $expires_in = Carbon::now()->diffInSeconds($token_data->token->expires_at);
 
-        return self::authTokenResponse($access_token, $expires_in);
+        return self::authTokenResponse(auth()->user(), $access_token, $expires_in);
     }
 
     public function me()
@@ -60,9 +60,12 @@ class UserAuthController extends Controller
         return response()->json(['message' => 'Logged out successfully'], Response::HTTP_OK);
     }
 
-    private static function authTokenResponse(string $access_token, int $expires_in): JsonResponse
-    {
-        return response()->json(["user" => auth()->user(), "token" => [
+    private static function authTokenResponse(User $user, string $access_token, int $expires_in): JsonResponse
+    {   
+        // TODO PASS THIS TO JSONRESOURCE(TRY TO PASS TOKEN VALUES LIKE A FIELD OF CLASS) FIND OUT
+        $user = $user->only(['name', 'email', 'role', 'created_at', 'updated_at']);
+
+        return response()->json(["user" => $user, "token" => [
             "access_token" => $access_token,
             "expires_in" => $expires_in,
             'token_type' => 'Bearer',

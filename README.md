@@ -12,9 +12,11 @@
 - clonar .env.example a .env
 - sail up
 - sail artisan migrate --seed
+- sail artisan passport:client --personal
 
 ## sin docker
 
 - clonar .env.example a .env
 - levantar todo el setup como un proyecto normal de laravel
-- sail artisan migrate --seed
+- php artisan migrate --seed
+- php artisan passport:client --personal
