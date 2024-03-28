@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Enums\RoleEnum;
 use App\Models\Category;
+use App\Models\Product;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -25,11 +26,19 @@ class DatabaseSeeder extends Seeder
         ]);
 
         User::factory()->create([
-            'name' => 'User',
-            'email' => 'test@example.com',
+            'name' => 'User 1',
+            'email' => 'test1@example.com',
+            'password' => bcrypt('12345')
+        ]);
+
+        User::factory()->create([
+            'name' => 'User 2',
+            'email' => 'test2@example.com',
             'password' => bcrypt('12345')
         ]);
 
         Category::factory(3)->create();
+
+        Product::factory(15)->create();
     }
 }

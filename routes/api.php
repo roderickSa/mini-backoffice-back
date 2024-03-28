@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\UserAuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,4 +22,6 @@ Route::group(["prefix" => "/auth"], function () {
 
 Route::group(["middleware" => "auth:api"], function () {
     Route::apiResource("/category", CategoryController::class);
+
+    Route::apiResource("/product", ProductController::class)->except(['destroy']);
 });
