@@ -9,12 +9,22 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class CategoryController extends Controller
+class CategoryController extends Controller implements HasMiddleware
 {
     /**
      * Display a listing of the resource.
      */
+
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('ensure-admin-role', only: ['store', 'update']),
+        ];
+    }
+
     public function index(): JsonResource
     {
         return CategoryResource::collection(Category::orderBy('id', 'asc')->get());
