@@ -16,7 +16,7 @@ Route::group(["prefix" => "/auth"], function () {
 
     Route::group(["middleware" => "auth:api"], function () {
         Route::get("/me", [UserAuthController::class, 'me'])->name("user.me");
-        Route::get("/logout", [UserAuthController::class, 'logout'])->name("user.logout");
+        Route::post("/logout", [UserAuthController::class, 'logout'])->name("user.logout");
     });
 });
 
