@@ -1,9 +1,10 @@
 <?php
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Auth\UserAuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\ProductImageController;
 use Illuminate\Support\Facades\Route;
 
 /* Route::get('/user', function (Request $request) {
@@ -24,4 +25,6 @@ Route::group(["middleware" => "auth:api"], function () {
     Route::apiResource("/category", CategoryController::class);
 
     Route::apiResource("/product", ProductController::class)->except(['destroy']);
+    Route::post("/product/upload/image", [ProductImageController::class, 'store']);
+    Route::post("/product/delete/image", [ProductImageController::class, 'destroy']);
 });

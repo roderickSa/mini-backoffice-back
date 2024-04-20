@@ -28,6 +28,7 @@ class ProductResource extends JsonResource
             'updated_by' => $this->user_updater->email,
             'created_at' => (new DateTime($this->created_at))->format("Y-m-d H:i:s"),
             'updated_at' => (new DateTime($this->updated_at))->format("Y-m-d H:i:s"),
+            'images' => ProductImagesResource::collection($this->images)
         ];
     }
 }
