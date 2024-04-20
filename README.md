@@ -13,6 +13,7 @@
 - sail up
 - sail artisan migrate --seed
 - sail artisan passport:client --personal
+- add CLOUDINARY_URL value(create cloudinary account)
 
 ## sin docker
 
@@ -20,3 +21,4 @@
 - levantar todo el setup como un proyecto normal de laravel
 - php artisan migrate --seed
 - php artisan passport:client --personal
+- add CLOUDINARY_URL value(create cloudinary account)
