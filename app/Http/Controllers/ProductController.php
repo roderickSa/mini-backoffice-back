@@ -12,7 +12,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class ProductController extends Controller
 {
-    private const BASE_PRODUCT_URL = "/api/product";
+    private const BASE_PRODUCT_URL = "/product";
     /**
      * Display a listing of the resource.
      */
