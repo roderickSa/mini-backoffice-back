@@ -12,6 +12,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class ProductController extends Controller
 {
+    private const BASE_PRODUCT_URL = "/api/product";
     /**
      * Display a listing of the resource.
      */
@@ -22,7 +23,10 @@ class ProductController extends Controller
         $sort_field = $request->sort_field ?? "id";
         $sort_direction = $request->sort_direction ?? "asc";
 
-        $paginate_products = Product::where('name', 'LIKE', "%$search%")->orderBy($sort_field, $sort_direction)->paginate($per_page);
+        $paginate_products = Product::where('name', 'LIKE', "%$search%")
+            ->orderBy($sort_field, $sort_direction)
+            ->paginate($per_page)
+            ->setPath(self::BASE_PRODUCT_URL);
 
         return ProductResource::collection($paginate_products);
     }
