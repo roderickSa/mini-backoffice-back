@@ -51,7 +51,12 @@ class ProductImageController extends Controller
             $realPath = $image->getRealPath();
 
             try {
-                $uploadedFileUrl = Cloudinary::upload($realPath, ["folder" => self::PRODUCT_IMAGES_FOLDER])->getPublicId();
+                $uploadedFileUrl = Cloudinary::upload($realPath, [
+                    "folder" => self::PRODUCT_IMAGES_FOLDER,
+                    "transformation" => [
+                        ["width" => 500, "height" => 400, "crop" => "scale"]
+                    ]
+                ])->getPublicId();
 
                 $product->images()->create(['url' => $uploadedFileUrl]);
             } catch (\Exception $ex) {
