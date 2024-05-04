@@ -35,9 +35,12 @@ class UserRegisterRequest extends FormRequest
 
     public function failedValidation(Validator $validator)
     {
+        $firstMessage = $validator->errors()->first();
         throw new HttpResponseException(response()->json([
             'data'   => [
-                'errors' => $validator->errors()->all()
+                'errors' => [
+                    ["message" => $firstMessage]
+                ]
             ],
         ], Response::HTTP_BAD_REQUEST));
     }

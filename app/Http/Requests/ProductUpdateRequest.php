@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Http\Response;
 
 class ProductUpdateRequest extends FormRequest
 {
@@ -26,8 +29,22 @@ class ProductUpdateRequest extends FormRequest
             'description' => ['nullable', "string"],
             'stock' => ['numeric', 'min:0'],
             'price' => 'numeric',
-            'status' => 'between:0,1',
+            'status' => ['numeric', 'between:0,1'],
             'category_id' => 'exists:categories,id',
         ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        $firstMessage = array_values($validator->errors()->toArray())[0][0];
+        throw new HttpResponseException(
+            response()->json([
+                'data' => [
+                    'errors' => [
+                        ['message' => $firstMessage,]
+                    ],
+                ],
+            ], Response::HTTP_BAD_REQUEST)
+        );
     }
 }

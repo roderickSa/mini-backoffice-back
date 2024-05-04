@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Auth;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Response;
@@ -35,10 +36,24 @@ class UserLoginRequest extends FormRequest
             throw new HttpResponseException(response()->json([
                 'data' => [
                     'errors' => [
-                        'email or password invalid'
+                        ["message" => 'email or password invalid']
                     ],
                 ],
             ], Response::HTTP_BAD_REQUEST));
         }
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        $firstMessage = array_values($validator->errors()->toArray())[0][0];
+        throw new HttpResponseException(
+            response()->json([
+                'data' => [
+                    'errors' => [
+                        ['message' => $firstMessage,]
+                    ],
+                ],
+            ], Response::HTTP_BAD_REQUEST)
+        );
     }
 }
